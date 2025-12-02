@@ -5,7 +5,7 @@ import cors from 'cors'
 import {dbConnect} from './lib/dbInstance.js'
 import {serve} from 'inngest/express'
 import { functions, inngest } from './lib/inngest.js'
-import {syncUser,deleteUser} from './lib/inngest.js'
+
 const app=express()
 const __dirname=path.resolve()
 
