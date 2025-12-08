@@ -8,6 +8,7 @@ import { functions, inngest } from './lib/inngest.js'
 import { clerkMiddleware } from '@clerk/express'
 import { protectRoute } from './middleware/protectRoute.js'
 import chatRoute from './routes/chatRoute.js'
+import sessionRoute from './routes/sessionRoute.js'
 const app=express()
 const __dirname=path.resolve()
 
@@ -27,7 +28,11 @@ app.get('/book',protectRoute,(req,res)=>{
     return res.status(201).json({message:"Server is running.... "})
     
 })
-app.use('api/chatRoute',chatRoute)
+app.use('api/chat',chatRoute)
+app.use('api/session', sessionRoute);
+
+
+
 // make our app ready for deployment
 if (ENV.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
