@@ -96,7 +96,8 @@ export async function joinSession(){
      const clerkId=req.user.clerkId
      const session=await Session.findById(id)
      if(!session)return res.status(401).json({message:"Session not found!"})
-     if(session.participant)return res.status(401).json({message:"Session is already full"})
+     if(session.participant)return res.status(409).json({message:"Session is already full"})
+        if(session.host.toString()===userId)return res.status(403).json({message:"Host cannot be the participant"})
      session.participant=userId
       await session.save()
       const channel=chatClient.channel("messaging", session.callId)
@@ -124,8 +125,7 @@ export async function endSession(){
      if(session.status=="completed"){
          return res.status(401).json({message:"Session is already completed"})
      }
-     session.status="completed"
-     await session.save()
+     
 
 
      //delete video stream
@@ -135,7 +135,9 @@ export async function endSession(){
      //delete chat channel 
       const channel=chatClient.channel("messaging",session.callId)
       await channel.delete()
-      
+      session.status="completed"
+     await session.save()
+
      return res.status(201).json({message:"Session ended successfully"})
    } catch (error) {
         console.error(error.message)
