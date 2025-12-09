@@ -1,24 +1,21 @@
-import { useState } from 'react'
 
-
-import { SignedIn, SignedOut, SignIn, SignInButton, SignOutButton, UserButton } from '@clerk/clerk-react'
-
+import { Navigate, Route,Routes } from 'react-router'
+import HomePage from './pages/HomePage'
+import AboutPage from './pages/AboutPage'
+import Problems from './pages/Problems'
+import { useUser } from '@clerk/clerk-react'
 function App() {
-  const [count, setCount] = useState(0)
-
+  const { isSignedIn } = useUser()
   return (
     <>
-      <h1>Welcome to the app </h1>
-      <SignedOut>
-        <SignInButton mode='modal'>
-         <button className=''>Sign-up please</button> 
-         </SignInButton>
-      </SignedOut>
+    <Routes>
+      <Route path="/" element={<HomePage/>}/>
+      <Route path="/about" element={<AboutPage/>}/>
+      <Route path="/problems" element={(isSignedIn ? <Problems /> : <Navigate to="/" />)} />
 
-      <SignedIn>
-        <SignOutButton/>
-      </SignedIn>
-      <UserButton/>
+      
+    </Routes>
+      
     </>
   )
 }
