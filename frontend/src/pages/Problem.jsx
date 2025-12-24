@@ -32,8 +32,8 @@ function Problem() {
     const handleLanguageChange=(e)=>{
 
     }
-    const handleProblemChange=()=>{
-
+    const handleProblemChange=(id)=>{
+      navigate(`/problem/${id}`);
     }
     const triggerConfetti=()=>{}
     const checkIfTestsPassed=()=>{}
@@ -45,7 +45,12 @@ function Problem() {
     <PanelGroup direction="horizontal">
     <Panel defaultSize={40} minSize={30}>
     {/* left pannel  */}
-    <ProblemDescription/>
+    <ProblemDescription 
+      problem={currProblem}
+      currProblemId={currProblemId}
+      onProblemChange={handleProblemChange}
+      allProblems={Object.values(PROBLEMS)}
+    />
     </Panel>
     <PanelResizeHandle className='w-2 bg-base-200 hover:bg-primary transition-col-resize'/>
     {/* Right pannel  */}
@@ -60,7 +65,12 @@ function Problem() {
     </Panel>
 
     </PanelGroup>
-    <ProblemDescription/>
+    <ProblemDescription
+      problem={currProblem}
+      currProblemId={currProblemId}
+      onProblemChange={handleProblemChange}
+      allProblems={Object.values(PROBLEMS)}
+    />
 
     </Panel>
     </PanelGroup>
